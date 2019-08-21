@@ -1,0 +1,45 @@
+<input> 10 5
+;ro - рабочий регистр
+;r1 - результат
+;r2 - больший множитель
+;r3 - меньший множитель, в процессе выполнения будет декрементироваться
+;r4 - 1-й множитель
+;r5 - 2-й множитель
+
+load =0
+store 1
+
+;оптимизационная часть
+read 4
+read 5
+load 4
+SUB 5
+JGTZ label1
+
+load 5
+store 2
+load 4
+store 3
+JMP multloop
+
+label1:
+load 4
+store 2
+load 5
+store 3
+;конец оптимизационной части
+
+;теперь в r2 больший множитель, в r3 - меньший(также меньший множитель в r0)
+multloop: 
+	JZ finish
+	load 1
+	ADD 2
+	store 1
+	load 3
+	SUB =1
+	store 3
+	JMP multloop
+
+finish:
+write 1
+HALT
