@@ -1,0 +1,30 @@
+<input> 25 7
+;r0 - рабочий регистр
+;r1 - частное
+;r2 - изначальное делимое, в конце в данном регистре остаток
+;r3 - делитель
+
+load =0
+store 1
+
+read 2
+read 3
+
+load 2
+divloop:
+	SUB 3
+	JGTZ label1
+	JZ label1
+	JMP finish
+	label1: 
+	store 2
+	load 1
+	ADD =1
+	store 1
+	load 2
+	JMP divloop
+
+finish:
+write 1
+write 2
+HALT
