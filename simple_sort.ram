@@ -1,0 +1,79 @@
+﻿;<input> 10 18 5 3 20 4 10 11 22 13 7
+<input> 5 18 5 3 20 4
+;ro - рабочий регистр
+;r1 - N
+;r2 - i(текущий индекс, начинается с 6)
+;r3 - k
+;r4 - индекс последнего элемента массива в пространстве r
+;r5 - переменная для обмена значений
+;r6 .. r[6+N-1] - массив чисел
+
+
+
+read 1;N
+load 1
+ADD =5
+store 4;index of last element
+
+
+;размещаем N чисел в r начиная с r6
+load =6
+store 2
+readloop:
+	SUB 4
+	JGTZ sort
+	read *2
+	load 2
+	ADD =1
+	store 2
+	JMP readloop
+
+
+sort:
+;СОРТИРОВКА
+load =5
+store 2;i
+nexti:
+	load 2
+	ADD =1
+	store 2;i
+	SUB 4;
+	JGTZ endofsort
+	load 2;i
+	store 3
+	nextk:
+		load 3
+		ADD =1
+		store 3;k
+		;в r0, r3 находится k
+		SUB 4
+		JGTZ nexti
+		load *3
+		SUB *2
+		JGTZ nextk
+		JZ nextk
+		;меняем местами
+		load *3
+		store 5
+		load *2
+		store *3
+		load 5
+		store *2
+		JMP nextk
+endofsort:
+;КОНЕЦ СОРТИРОВКИ
+
+;выводим отсортированный массив
+load =6
+store 2
+writeloop:
+	SUB 4
+	JGTZ finish
+	write *2
+	load 2
+	ADD =1
+	store 2
+	JMP writeloop
+
+finish:
+HALT
